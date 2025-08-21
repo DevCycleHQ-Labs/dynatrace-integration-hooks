@@ -1,30 +1,30 @@
 
-# Variable Evaluation Hooks for .NET SDK
+# DevCycle Feature Flag Evaluation Hooks for .NET SDK
 
-This repository contains the variable evaluation hooks for the .NET SDK.
+This repository provides evaluation hooks for the DevCycle .NET SDK that enable observability and tracing of feature flag evaluations.
 
 ## Usage
 
-To use the hooks, you need to use the Local DevCycle .NET SDK 4.8.1 or higher.
+To implement these hooks, you must have the DevCycle Local .NET SDK version 4.8.1 or later installed.
 
-Then, you can use the hooks in your code, copy the ActivityHook.cs file to your project and add it to your project.
+Copy the DynatraceOneAgentHook.cs file into your project and include it in your build.
 
-## Add the hook to your DevCycle client
+## Integrating the hook with your DevCycle client
 
 ```c#
-    // Create DevCycle client with default options
+    // Initialize DevCycle client with standard configuration
     DevCycleLocalClient client = new DevCycleLocalClientBuilder()
         .SetSDKKey("<DEVCYCLE_SERVER_SDK_KEY>")
         .SetLogger(LoggerFactory.Create(builder => builder.AddConsole()))
         .Build();
 
-    // Add eval hook and pass an ActivitySource
-    var hook = new ActivityHook(new ActivitySource("DevCycle.FlagEvaluations");
+    // Initialize evaluation hook with an ActivitySource for tracing
+    var hook = new DynatraceOneAgentHook(new ActivitySource("DevCycle.FlagEvaluations"));
     client.AddEvalHook(hook);
 ```
 
-## OpenTelemetry Configuration
+## OpenTelemetry Integration
 
-The hook is using OpenTelemetry to trace the feature flag evaluation which are automatically picked up by Dynatrace OneAgent if its already configured.
+This hook leverages OpenTelemetry to instrument feature flag evaluations, creating traces that Dynatrace OneAgent automatically collects when properly configured.
 
-If you have OpenTelemetry configured in your project, you can use the hook to trace the feature flag evaluation and they will go to your configured observability provider.
+When OpenTelemetry is configured in your application, the hook will send feature flag evaluation traces to your designated observability platform.

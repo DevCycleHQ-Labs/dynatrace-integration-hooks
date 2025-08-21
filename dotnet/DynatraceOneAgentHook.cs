@@ -4,7 +4,7 @@ using DevCycle.SDK.Server.Common.Model;
 
 namespace Hooks
 {
-    public class ActivityHook : EvalHook
+    public class DynatraceOneAgentHook : EvalHook
     {
         private readonly ActivitySource _activitySource;
         private readonly ConcurrentDictionary<string, Activity> _activities = new();
