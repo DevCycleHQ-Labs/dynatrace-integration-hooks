@@ -5,7 +5,7 @@ This repository provides evaluation hooks for the DevCycle .NET SDK that enable 
 
 ## Usage
 
-To implement these hooks, you must have the DevCycle Local .NET SDK version 4.8.1 or later installed.
+To implement these hooks, you must have `DevCycle.SDK.Server.Local` version `4.8.1` or later, or `DevCycle.SDK.Server.Cloud` version `3.8.1` or later installed.
 
 Copy the DynatraceOneAgentHook.cs file into your project and include it in your build.
 
