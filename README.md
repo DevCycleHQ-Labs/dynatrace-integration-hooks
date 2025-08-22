@@ -7,3 +7,4 @@ There are language specific folders for each SDK and there are usage examples fo
 Supported SDKs:
 
 - [java](java)
+- [.NET](dotnet)
