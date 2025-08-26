@@ -80,6 +80,9 @@ public class DynatraceOneAgentHook implements EvalHook<Object> {
 
                     if (variableMetadata != null && variableMetadata.featureId != null) {
                         span.setAttribute("feature_flag.set.id", variableMetadata.featureId);
+                        if (variableMetadata.projectId != null) {
+                            span.setAttribute("feature_flag.url", "https://app.devcycle.com/r/p/" + variableMetadata.projectId +  "/f/" + variableMetadata.featureId);
+                        }
                     }
 
                     log.debug("Feature flag span completed: {} = {}", var.getKey(), var.getValue());
