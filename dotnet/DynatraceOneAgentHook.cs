@@ -48,9 +48,9 @@ namespace Hooks
                 if (variableMetadata.FeatureId != null)
                 {
                     activity.SetTag("feature_flag.set.id", variableMetadata.FeatureId);
-                    if (variableMetadata.ProjectId != null)
+                    if (context.Metadata.Project?.Id != null)
                     {
-                        activity.SetTag("feature_flag.url", $"https://app.devcycle.com/r/p/{variableMetadata.ProjectId}/f/{variableMetadata.FeatureId}");
+                        activity.SetTag("feature_flag.url", $"https://app.devcycle.com/r/p/{context.Metadata.Project.Id}/f/{variableMetadata.FeatureId}");
                     }
                 }
                 if (variableDetails.Eval != null)
