@@ -45,8 +45,9 @@ builder.Logging.AddOpenTelemetry(opt =>
     opt.ParseStateValues = true; // Enable structured log parsing;
     opt.AddOtlpExporter(options =>
     {
-        options.Endpoint = new Uri("https://xtc47953.live.dynatrace.com/api/v2/otlp/v1/logs");
+        options.Endpoint = new Uri($"{otlpEnpoint}/v1/logs");
         options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
+        // add auth token here
         if (headers.Any())
         {
             options.Headers = string.Join(",", headers.Select(kvp => $"{kvp.Key}={kvp.Value}"));
@@ -59,12 +60,12 @@ builder.Logging.AddOpenTelemetry(opt =>
 ## Integrating the hook with your DevCycle client
 
 ```c#
-    // Initialize DevCycle client with standard configuration
-    DevCycleLocalClient client = new DevCycleLocalClientBuilder()
-        .SetSDKKey("<DEVCYCLE_SERVER_SDK_KEY>")
-        .SetLogger(LoggerFactory.Create(builder => builder.AddConsole()))
-        .Build();
+// Initialize DevCycle client with standard configuration
+DevCycleLocalClient client = new DevCycleLocalClientBuilder()
+    .SetSDKKey("<DEVCYCLE_SERVER_SDK_KEY>")
+    .SetLogger(LoggerFactory.Create(builder => builder.AddConsole()))
+    .Build();
 
-    // Initialize evaluation hook with an ActivitySource for tracing
-    client.AddEvalHook(new LogHook(logger));
+// Initialize evaluation hook with an ActivitySource for tracing
+client.AddEvalHook(new LogHook(logger));
 ```
