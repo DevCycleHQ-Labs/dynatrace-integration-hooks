@@ -45,7 +45,7 @@ builder.Logging.AddOpenTelemetry(opt =>
     opt.ParseStateValues = true; // Enable structured log parsing;
     opt.AddOtlpExporter(options =>
     {
-        options.Endpoint = new Uri($"{otlpEnpoint}/v1/logs");
+        options.Endpoint = new Uri($"{otlpEndpoint}/v1/logs");
         options.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
         // add auth token here
         if (headers.Any())
