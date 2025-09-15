@@ -43,8 +43,6 @@ public class DynatraceOneAgentHook implements EvalHook<Object> {
                         span.setAttribute("feature_flag.environment", ctx.getMetadata().environment.id);
                     }
                 }
-
-                log.debug("Feature flag evaluation span started for key: {}", ctx.getKey());
             }
 
             spans.put(ctx, span);
@@ -57,10 +55,6 @@ public class DynatraceOneAgentHook implements EvalHook<Object> {
 
     public void after(HookContext<Object> ctx, Optional<Variable<Object>> variable, VariableMetadata variableMetadata) {
         // DevCycle calls onFinally instead of after, so we don't handle span completion here
-        log.debug("after called for key: {} (span completion handled in onFinally)", ctx.getKey());
-        log.warn("variableMetadata: {}", variableMetadata != null ? variableMetadata.toString() : "null");
-        log.warn("variable: {}", variable != null ? variable.get().toString() : "null");
-        log.warn("ctx: {}", ctx != null ? ctx.toString() : "null");
     }
 
     public void onFinally(HookContext<Object> ctx, Optional<Variable<Object>> variable, VariableMetadata variableMetadata) {
@@ -68,8 +62,6 @@ public class DynatraceOneAgentHook implements EvalHook<Object> {
             Span span = spans.remove(ctx);
 
             if (span != null) {
-                log.debug("Completing feature flag evaluation span for key: {}", ctx.getKey());
-                log.warn("variableMetadata: {}", variableMetadata != null ? variableMetadata.toString() : "null");
 
                 if (variable.isPresent()) {
                     Variable<Object> var = variable.get();
@@ -86,18 +78,15 @@ public class DynatraceOneAgentHook implements EvalHook<Object> {
                         }
                     }
 
-                    log.debug("Feature flag span completed: {} = {}", var.getKey(), var.getValue());
                 } else {
                     span.setAttribute("feature_flag.result.value", "null");
                     span.setAttribute("feature_flag.result.reason", "evaluation_failed");
-                    log.debug("Feature flag evaluation failed for key: {}", ctx.getKey());
                 }
 
                 span.end();
-                log.debug("Feature flag span ended for key: {}", ctx.getKey());
 
             } else {
-                log.warn("No span found for feature flag key: {}", ctx.getKey());
+                log.debug("No span found for feature flag key: {}", ctx.getKey());
             }
         } catch (Exception e) {
             log.error("Error completing feature flag span for key {}: {}", ctx.getKey(), e.getMessage());
