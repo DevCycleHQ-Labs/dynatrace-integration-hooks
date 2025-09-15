@@ -1,8 +1,6 @@
-
 # DevCycle Feature Flag Evaluation Hooks for .NET SDK
 
 This repository provides evaluation hooks for the DevCycle .NET SDK that enable observability and tracing of feature flag evaluations.
-
 
 ## Usage
 
@@ -31,6 +29,23 @@ Copy the DynatraceOneAgentHook.cs file into your project and include it in your 
 This hook leverages OpenTelemetry to instrument feature flag evaluations, creating traces that Dynatrace OneAgent automatically collects when properly configured.
 
 When OpenTelemetry is configured in your application, the hook will send feature flag evaluation traces to your designated observability platform.
+
+# OpenTelemetrySpanHook
+
+Copy the OpenTelemetrySpanHook.cs file into your project and include it in your build.
+
+## Integrating the hook with your DevCycle client
+
+```c#
+// Initialize DevCycle client with standard configuration
+DevCycleLocalClient client = new DevCycleLocalClientBuilder()
+    .SetSDKKey("<DEVCYCLE_SERVER_SDK_KEY>")
+    .SetLogger(LoggerFactory.Create(builder => builder.AddConsole()))
+    .Build();
+
+// Initialize evaluation hook with an ActivitySource for tracing
+client.AddEvalHook(new OpenTelemetrySpanHook(new ActivitySource("DevCycle.FlagEvaluations")));
+```
 
 # OtelLogHook
 

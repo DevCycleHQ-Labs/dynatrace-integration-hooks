@@ -25,3 +25,19 @@ Then, you can use the hooks in your code, copy the DynatraceOneAgentHook.java fi
 The hook is using OpenTelemetry to trace the feature flag evaluation which are automatically picked up by Dynatrace OneAgent if its already configured.
 
 If you have OpenTelemetry configured in your project, you can use the hook to trace the feature flag evaluation and they will go to your configured observability provider.
+
+# OpenTelemetrySpanHook
+
+Copy the OpenTelemetrySpanHook.java file into your project and include it in your build.
+
+## Integrating the hook with your DevCycle client
+
+```java
+    // Create DevCycle client with default options
+    devCycleClient = new DevCycleLocalClient(devCycleServerSdkKey);
+
+    // Add OpenTelemetrySpanHook for all variable types
+    OpenTelemetrySpanHook hook = new OpenTelemetrySpanHook();
+    devCycleClient.addHook(hook);
+
+```
