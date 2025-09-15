@@ -17,7 +17,7 @@ import io.opentelemetry.api.GlobalOpenTelemetry;
 
 @RequiredArgsConstructor
 @Slf4j
-public class DynatraceOneAgentHook implements EvalHook<Object> {
+public class OpenTelemetrySpanHook implements EvalHook<Object> {
 
     private Tracer tracer;
     private final Map<HookContext<Object>, Span> spans = new ConcurrentHashMap<>();
